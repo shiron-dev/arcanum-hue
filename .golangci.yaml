@@ -1,0 +1,14 @@
+linters:
+  enable-all: true
+  disable:
+    - exportloopref
+    - depguard
+
+issues:
+  exclude-rules:
+    - path: 'cmd/'
+      linters:
+        - gochecknoinits
+        - exhaustruct
+        - gochecknoglobals
+        - forbidigo
