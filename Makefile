@@ -20,5 +20,5 @@ run-%: init
 .PHONY: build
 build: $(BINARIES)
 
-$(BINARIES): init
+$(BINARIES): init lint
 	@go build -o $@ main.go
