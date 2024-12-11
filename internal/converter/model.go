@@ -1,11 +1,13 @@
-package gen
+package converter
 
-type ThemeModel struct {
-	Name string `json:"name"`
+type VSCodeThemeModel struct {
+	Name   string                `json:"name"`
+	Type   ThemeType             `json:"type"`
+	Colors VSCodeColorsJSONModel `json:"colors"`
 }
 
 //nolint:tagliatelle
-type ColorsJSONModel struct {
+type VSCodeColorsJSONModel struct {
 	ActivityBarActiveBorder                string `json:"activityBar.activeBorder"`
 	ActivityBarBackground                  string `json:"activityBar.background"`
 	ActivityBarBorder                      string `json:"activityBar.border"`
@@ -131,7 +133,7 @@ type ColorsJSONModel struct {
 	WidgetBorder                           string `json:"widget.border"`
 }
 
-type ColorsModel struct {
+type VSCodeColorsModel struct {
 	Foreground              string // #D7D7D7
 	SecondaryForeground     string // #9D9D9D
 	Background              string // #181818
@@ -146,7 +148,6 @@ type ColorsModel struct {
 	Border2                 string // #616161
 	TextLinkForeground      string // #4DA3FF
 	// Uncategorized
-	ActivityBarForeground            string // #D7D7D7
 	ActivityBarInactiveForeground    string // #868686
 	BadgeForeground                  string // #F8F8F8
 	ButtonHoverBackground            string // #026EC1
@@ -171,13 +172,14 @@ type ColorsModel struct {
 func ColorsModelToJSONModel(model ColorsModel) ColorsJSONModel {
 	foregroundBorder := model.Foreground + "12"
 
-	return ColorsJSONModel{
+	return &VSCodeColorsJSONModel{
 		ButtonForeground:                       model.Foreground,
 		SettingsHeaderForeground:               model.Foreground,
 		StatusBarDebuggingForeground:           model.Foreground,
 		StatusBarItemRemoteForeground:          model.Foreground,
 		TabActiveForeground:                    model.Foreground,
 		ActivityBarBadgeForeground:             model.Foreground,
+		ActivityBarForeground:                  model.Foreground,
 		ButtonBorder:                           foregroundBorder,
 		EditorGroupBorder:                      foregroundBorder,
 		ActivityBarBackground:                  model.Background,
@@ -276,7 +278,6 @@ func ColorsModelToJSONModel(model ColorsModel) ColorsJSONModel {
 		TextBlockQuoteBorder:                   model.Border2,
 		TextLinkActiveForeground:               model.TextLinkForeground,
 		TextLinkForeground:                     model.TextLinkForeground,
-		ActivityBarForeground:                  model.ActivityBarForeground,
 		ActivityBarInactiveForeground:          model.ActivityBarInactiveForeground,
 		BadgeForeground:                        model.BadgeForeground,
 		ButtonHoverBackground:                  model.ButtonHoverBackground,
