@@ -168,7 +168,7 @@ type ColorsModel struct {
 }
 
 //nolint:funlen
-func ColorsModelToJsonModel(model ColorsModel) ColorsJSONModel {
+func ColorsModelToJSONModel(model ColorsModel) ColorsJSONModel {
 	foregroundBorder := model.Foreground + "12"
 
 	return ColorsJSONModel{
