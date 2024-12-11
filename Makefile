@@ -9,6 +9,11 @@ init:
 lint:
 	@golangci-lint run  --config=.golangci.yaml --fix
 
+.PHONY: fmt
+fmt:
+	@go fmt ./...
+	@gofumpt -l -w .
+
 .PHONY: run
 run: init
 	@go run main.go
