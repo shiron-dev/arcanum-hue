@@ -26,6 +26,10 @@ func GetVSCodeTheme(cfgPath string, outPath string) error {
 		return err
 	}
 
+	if stat, err := os.Stat(outPath); err == nil && stat.IsDir() {
+		outPath += "/" + cfg.Name + ".json"
+	}
+
 	err = os.WriteFile(outPath, jsonData, WriteFilePerm)
 	if err != nil {
 		return err

@@ -10,20 +10,25 @@ import (
 var vscodeCmd = &cobra.Command{
 	Use:   "vscode",
 	Short: "Generate color theme for Visual Studio Code",
-	Long:  `Generate a color theme for Visual Studio Code.`,
+	Long: `Generate a color theme for Visual Studio Code.
+Usage: arcanumhue gen vscode [config file path] [output file path]`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("gen vscode called")
 
-		if cmd.Flag("config").Value.String() == "" {
-			fmt.Println("Please specify the configuration file")
+		if len(args) < 2 {
+			fmt.Println(`Please specify the config file path and the output file path.
+	Usage: arcanumhue gen vscode [config file path] [output file path]`)
 
 			return
 		}
 
-		cfgPath := cmd.Flag("config").Value.String()
+		cfgPath := args[0]
 		fmt.Println("config path:", cfgPath)
 
-		err := converter.GetVSCodeTheme(cfgPath, "vscode-theme.json")
+		outPath := args[1]
+		fmt.Println("output path:", outPath)
+
+		err := converter.GetVSCodeTheme(cfgPath, outPath)
 		if err != nil {
 			fmt.Println("Failed to generate Visual Studio Code theme:", err)
 
@@ -34,6 +39,4 @@ var vscodeCmd = &cobra.Command{
 
 func init() {
 	genCmd.AddCommand(vscodeCmd)
-
-	vscodeCmd.Flags().StringP("config", "c", "", "Path to the configuration file")
 }
