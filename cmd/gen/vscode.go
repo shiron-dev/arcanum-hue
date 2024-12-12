@@ -34,6 +34,8 @@ Usage: arcanumhue gen vscode [config file path] [output file path]`,
 
 			return
 		}
+
+		fmt.Println("Successfully generated Visual Studio Code theme")
 	},
 }
 

@@ -1,9 +1,26 @@
 package converter
 
+type VSCodeUITheme string
+
+const (
+	VSCodeUIThemeDark      VSCodeUITheme = "vs-dark"
+	VSCodeUIThemeLight     VSCodeUITheme = "vs"
+	VSCodeUIThemeHighDark  VSCodeUITheme = "hc-black"
+	VSCodeUIThemeHighLight VSCodeUITheme = "hc-light"
+)
+
+type VSCodeThemeExtension struct {
+	Name        string
+	Description string
+	Version     string
+	Themes      []VSCodeThemeModel
+}
+
 type VSCodeThemeModel struct {
-	Name   string                `json:"name"`
-	Type   ThemeType             `json:"type"`
-	Colors VSCodeColorsJSONModel `json:"colors"`
+	Name    string                `json:"name"`
+	UITheme VSCodeUITheme         `json:"-"`
+	Type    ThemeType             `json:"type"`
+	Colors  VSCodeColorsJSONModel `json:"colors"`
 }
 
 //nolint:tagliatelle

@@ -14,13 +14,16 @@ const (
 )
 
 type Config struct {
-	Name   string       `yaml:"name"`
-	Colors []ColorTheme `yaml:"colorThemes"`
+	Name        string       `yaml:"name"`
+	Description string       `yaml:"description"`
+	Colors      []ColorTheme `yaml:"colorThemes"`
 }
 
 type ColorTheme struct {
-	Type  ThemeType   `yaml:"type"`
-	Model ColorsModel `yaml:"colors"`
+	Name          string        `yaml:"name"`
+	VSCodeUITheme VSCodeUITheme `yaml:"vscodeUiTheme"`
+	Type          ThemeType     `yaml:"type"`
+	Model         ColorsModel   `yaml:"colors"`
 }
 
 type ColorsModel struct {
