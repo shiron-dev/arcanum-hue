@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/shiron-dev/arcanum-hue/internal/converter/model/config",
+  "$ref": "#/$defs/Config",
+  "$defs": {
+    "ColorTheme": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "vscodeUiTheme": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "colors": {
+          "$ref": "#/$defs/ColorsModel"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "ColorsModel": {
+      "properties": {
+        "foreground": {
+          "type": "string"
+        },
+        "hiForeground": {
+          "type": "string"
+        },
+        "secondaryForeground": {
+          "type": "string"
+        },
+        "foregroundAccent": {
+          "type": "string"
+        },
+        "warningForeground": {
+          "type": "string"
+        },
+        "background": {
+          "type": "string"
+        },
+        "editorBackground": {
+          "type": "string"
+        },
+        "secondaryBackground": {
+          "type": "string"
+        },
+        "backgroundAccent": {
+          "type": "string"
+        },
+        "hiBackgroundAccent": {
+          "type": "string"
+        },
+        "matchBackground": {
+          "type": "string"
+        },
+        "border": {
+          "type": "string"
+        },
+        "terminalAnsi": {
+          "$ref": "#/$defs/TerminalAnsiModel"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "Config": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "colorThemes": {
+          "items": {
+            "$ref": "#/$defs/ColorTheme"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "TerminalAnsiModel": {
+      "properties": {
+        "black": {
+          "type": "string"
+        },
+        "brightBlack": {
+          "type": "string"
+        },
+        "blue": {
+          "type": "string"
+        },
+        "cyan": {
+          "type": "string"
+        },
+        "green": {
+          "type": "string"
+        },
+        "brightBlue": {
+          "type": "string"
+        },
+        "brightCyan": {
+          "type": "string"
+        },
+        "brightGreen": {
+          "type": "string"
+        },
+        "white": {
+          "type": "string"
+        },
+        "brightWhite": {
+          "type": "string"
+        },
+        "magenta": {
+          "type": "string"
+        },
+        "yellow": {
+          "type": "string"
+        },
+        "red": {
+          "type": "string"
+        },
+        "brightYellow": {
+          "type": "string"
+        },
+        "brightMagenta": {
+          "type": "string"
+        },
+        "brightRed": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    }
+  }
+}
