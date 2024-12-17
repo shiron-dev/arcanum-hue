@@ -27,3 +27,8 @@ build: $(BINARIES)
 
 $(BINARIES): init
 	@go build -o $@ main.go
+
+.PHONY: gen
+gen:
+	@go generate ./...
+	@go run scripts/main.go
