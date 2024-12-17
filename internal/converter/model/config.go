@@ -21,6 +21,21 @@ type ColorTheme struct {
 }
 
 type ColorsModel struct {
+	Foreground          string `yaml:"foreground"`
+	HiForeground        string `yaml:"hiForeground"`
+	SecondaryForeground string `yaml:"secondaryForeground"`
+	ForegroundAccent    string `yaml:"foregroundAccent"`
+	WarningForeground   string `yaml:"warningForeground"`
+
+	Background          string `yaml:"background"`
+	EditorBackground    string `yaml:"editorBackground"`
+	SecondaryBackground string `yaml:"secondaryBackground"`
+	BackgroundAccent    string `yaml:"backgroundAccent"`
+	HiBackgroundAccent  string `yaml:"hiBackgroundAccent"`
+	MatchBackground     string `yaml:"matchBackground"`
+
+	Border string `yaml:"border"`
+
 	TerminalAnsi TerminalAnsiModel `yaml:"terminalAnsi"`
 }
 

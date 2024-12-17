@@ -116,18 +116,21 @@ func templateWithInterface(outPath string, parse string, obj interface{}) error 
 
 func colorsModelToVSCodeColorsModel(colors *model.ColorsModel) *model.VSCodeColorsModel {
 	return &model.VSCodeColorsModel{
-		Foreground:          "",
-		HiForeground:        "",
-		EditorBackground:    "",
-		SecondaryForeground: "",
-		Background:          "",
-		BackgroundAccent:    "",
-		WarningForeground:   "",
-		Border:              "",
-		SecondaryBackground: "",
-		ForegroundAccent:    "",
-		HiBackgroundAccent:  "",
-		MatchBackground:     "",
-		TerminalAnsi:        colors.TerminalAnsi,
+		Foreground:          colors.Foreground,
+		HiForeground:        colors.HiForeground,
+		SecondaryForeground: colors.SecondaryForeground,
+		ForegroundAccent:    colors.ForegroundAccent,
+		WarningForeground:   colors.WarningForeground,
+
+		Background:          colors.Background,
+		EditorBackground:    colors.EditorBackground,
+		SecondaryBackground: colors.SecondaryBackground,
+		BackgroundAccent:    colors.BackgroundAccent,
+		HiBackgroundAccent:  colors.HiBackgroundAccent,
+		MatchBackground:     colors.MatchBackground,
+
+		Border: colors.Border,
+
+		TerminalAnsi: colors.TerminalAnsi,
 	}
 }
