@@ -65,36 +65,39 @@ jobs:
   golang-build-check:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    defaults:
-      run:
-        working-directory: scripts/dofy
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-golang
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
       - name: Run go build
-        run: go build -v ./cmd/main.go
+        run: make build
 
   golang-vet-check:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    defaults:
-      run:
-        working-directory: scripts/dofy
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-golang
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
       - name: Run go vet
         run: go vet ./...
 
   golang-fmt-check:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    defaults:
-      run:
-        working-directory: scripts/dofy
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-golang
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
       - name: Run go fmt
         run: go fmt ./...
       - name: Check diff
@@ -107,37 +110,34 @@ jobs:
   golang-lint-check:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    defaults:
-      run:
-        working-directory: scripts/dofy
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-golang
-      - uses: golangci/golangci-lint-action@971e284b6050e8a5849b72094c50ab08da042db8 # v6.1.1
+      - name: Set up Go
+        uses: actions/setup-go@v5
         with:
-          working-directory: scripts/dofy
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
+      - uses: golangci/golangci-lint-action@971e284b6050e8a5849b72094c50ab08da042db8 # v6.1.1
 
   golang-test-comment-check:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    defaults:
-      run:
-        working-directory: scripts/dofy
     env:
       HTML_REPORT_URL_PATH: reports/${{ github.ref_name }}/${{ github.run_id }}/${{ github.run_attempt }}/cov
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-golang
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
       - uses: Homebrew/actions/setup-homebrew@064c96758610d925cdfa1878c508528f23dc6a58
       - name: Run go test
         id: golang-test
         run: |
           set +e
-          TEST_OUT=$(go test ./... -coverpkg=./... -coverprofile=cover.out -p=5)
+          TEST_OUT=$(go test ./... -coverpkg=./... -coverprofile=coverage.txt -p=5)
           TEST_EXIT_CODE=$?
-          if [ $TEST_EXIT_CODE -eq 0 ]; then
-            go tool cover -html=cover.out -o index.html
-          fi
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           {
             echo "comment<<$EOF"
@@ -160,47 +160,10 @@ jobs:
           } >> "$GITHUB_ENV"
           exit $TEST_EXIT_CODE
         continue-on-error: true
-      - uses: actions/upload-artifact@v4
-        if: ${{ steps.golang-test.outcome == 'success' }}
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@7f8b4b4bde536c465e797be725718b88c5d95e0e # v5.1.1
         with:
-          name: cov html
-          path: ${{ github.workspace }}/scripts/dofy/index.html
-          if-no-files-found: error
-      - uses: actions/checkout@v4
-        if: ${{ steps.golang-test.outcome == 'success' }}
-        with:
-          ref: github-pages
-          clean: false
-      - name: Set Git User
-        if: ${{ steps.golang-test.outcome == 'success' }}
-        working-directory: .
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      - name: Push HTML Report
-        if: ${{ steps.golang-test.outcome == 'success' }}
-        timeout-minutes: 3
-        working-directory: .
-        run: |
-          mkdir -p ${{ env.HTML_REPORT_URL_PATH }}
-          mv ./scripts/dofy/index.html ${{ env.HTML_REPORT_URL_PATH }}/index.html
-          
-          git add ${{ env.HTML_REPORT_URL_PATH }}
-          git commit -m "workflow: add HTML report for run-id ${{ github.run_id }} (attempt:  ${{ github.run_attempt }})"
-
-          while true; do
-            if ! git pull --rebase; then
-              echo "Failed to rebase. Please review manually."
-              exit 1
-            fi
-
-            if git push; then
-              echo "Successfully pushed HTML report to repo."
-              exit 0
-            fi
-          done
-      - uses: actions/checkout@v4
-        if: ${{ steps.golang-test.outcome == 'success' }}
+          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Create PR comment
         uses: marocchino/sticky-pull-request-comment@44e0bad81007ecff41ba26d1cbf49a0267d28e9d # v2.9.0
         with:
@@ -209,9 +172,6 @@ jobs:
           header: golang-test
           message: | 
             ${{ env.comment }}
-
-            ## Cov HTML ${{ github.run_id }}: ${{ github.run_attempt }}
-            [Cov HTML Report](https://shiron-dev.github.io/dotfiles/${{ env.HTML_REPORT_URL_PATH }})
       - name: Error check
         if: ${{ steps.golang-test.outcome != 'success' }}
         run: exit 1
@@ -219,12 +179,13 @@ jobs:
   golang-test-check:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    defaults:
-      run:
-        working-directory: scripts/dofy
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-golang
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
       - uses: Homebrew/actions/setup-homebrew@064c96758610d925cdfa1878c508528f23dc6a58
       - name: Set up gotestfmt
         uses: gotesttools/gotestfmt-action@8b4478c7019be847373babde9300210e7de34bfb # v2.5.0
@@ -251,14 +212,15 @@ jobs:
   golang-generate-check:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    defaults:
-      run:
-        working-directory: scripts/dofy
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-      - uses: ./.github/actions/setup-golang
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
       - name: Run go generate
         run: go generate ./...
       - name: Check diff
