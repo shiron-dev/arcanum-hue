@@ -135,46 +135,11 @@ jobs:
       - name: Run go test
         id: golang-test
         run: |
-          set +e
-          TEST_OUT=$(go test ./... -coverpkg=./... -coverprofile=coverage.txt -p=5)
-          TEST_EXIT_CODE=$?
-          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          {
-            echo "comment<<$EOF"
-            printf "# Test coverage\n\n"
-            if [ $TEST_EXIT_CODE -eq 0 ]; then
-              printf ":white_check_mark: All tests passed successfully.\n\n"
-              printf "| Status | Package | Time | Coverage |\n"
-              printf "|--------|---------|------|----------|\n"
-              echo "$TEST_OUT" | sed -E "s/^\?\s+/?:/g; s/^ok\s+/ok:/g; s/^\s/:/g; s/\s+/ /g; s/coverage:/::/g; s/([0-9.]+)s\s::/\:\1s\:/g; s/ of statements//g;" | sed  -e "s/in .\/...//g" | awk -F'[:]' '{ print "| " $1 " | " $2 " | " $3 " |" $4 " |"}'
-            else
-              printf ":red_circle: Some tests failed.\n\n"
-              printf "<details>\n"
-              printf "<summary>go test result</summary>\n"
-              printf "\n\`\`\`\n\n"
-              echo "$TEST_OUT"
-              printf "\n\`\`\`\n\n"
-              printf "</details>\n"
-            fi
-            echo "$EOF"
-          } >> "$GITHUB_ENV"
-          exit $TEST_EXIT_CODE
-        continue-on-error: true
+          go test ./... -coverpkg=./... -coverprofile=coverage.txt -p=5
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@7f8b4b4bde536c465e797be725718b88c5d95e0e # v5.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-      - name: Create PR comment
-        uses: marocchino/sticky-pull-request-comment@44e0bad81007ecff41ba26d1cbf49a0267d28e9d # v2.9.0
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          number: ${{ github.event.pull_request.number }}
-          header: golang-test
-          message: | 
-            ${{ env.comment }}
-      - name: Error check
-        if: ${{ steps.golang-test.outcome != 'success' }}
-        run: exit 1
 
   golang-test-check:
     runs-on: ubuntu-latest
