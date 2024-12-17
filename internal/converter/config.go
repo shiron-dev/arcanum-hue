@@ -3,46 +3,11 @@ package converter
 import (
 	"os"
 
+	"github.com/shiron-dev/arcanum-hue/internal/converter/model"
 	"gopkg.in/yaml.v3"
 )
 
-type ThemeType string
-
-const (
-	ThemeTypeLight ThemeType = "light"
-	ThemeTypeDark  ThemeType = "dark"
-)
-
-type Config struct {
-	Name        string       `yaml:"name"`
-	Description string       `yaml:"description"`
-	Colors      []ColorTheme `yaml:"colorThemes"`
-}
-
-type ColorTheme struct {
-	Name          string        `yaml:"name"`
-	VSCodeUITheme VSCodeUITheme `yaml:"vscodeUiTheme"`
-	Type          ThemeType     `yaml:"type"`
-	Model         ColorsModel   `yaml:"colors"`
-}
-
-type ColorsModel struct {
-	Foreground              string `yaml:"foreground"`              // #D7D7D7
-	SecondaryForeground     string `yaml:"secondaryForeground"`     // #9D9D9D
-	Background              string `yaml:"background"`              // #181818
-	SecondaryBackground     string `yaml:"secondaryBackground"`     // #313131
-	BackgroundHighlight     string `yaml:"backgroundHighlight"`     // #0078D4
-	PeekHighlightBackground string `yaml:"peekHighlightBackground"` // #BB800966
-	BorderForeground        string `yaml:"borderForeground"`        // #2B2B2B
-	BorderBackground        string `yaml:"borderBackground"`        // #3C3C3C
-	EditorForeground        string `yaml:"editorForeground"`        // #CCCCCC
-	EditorBackground        string `yaml:"editorBackground"`        // #1F1F1F
-	DeleteForeground        string `yaml:"deleteForeground"`        // #F85149
-	Border2                 string `yaml:"border2"`                 // #616161
-	TextLinkForeground      string `yaml:"textLinkForeground"`      // #4DA3FF
-}
-
-func LoadConfigPath(path string) (*Config, error) {
+func LoadConfigPath(path string) (*model.Config, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
@@ -51,8 +16,8 @@ func LoadConfigPath(path string) (*Config, error) {
 	return loadConfig(data)
 }
 
-func loadConfig(data []byte) (*Config, error) {
-	var config Config
+func loadConfig(data []byte) (*model.Config, error) {
+	var config model.Config
 	if err := yaml.Unmarshal(data, &config); err != nil {
 		return nil, err
 	}
