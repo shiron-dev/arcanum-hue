@@ -32,3 +32,7 @@ $(BINARIES): init
 gen:
 	@go generate ./...
 	@go run scripts/main.go
+
+.PHONY: release
+release:
+	@goreleaser release --snapshot --clean
