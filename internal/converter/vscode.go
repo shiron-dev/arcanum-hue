@@ -7,6 +7,7 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/shiron-dev/arcanum-hue/internal/converter/model"
 	"github.com/shiron-dev/arcanum-hue/templates/vscode"
 )
 
@@ -18,18 +19,18 @@ func GetVSCodeTheme(cfgPath string, outPath string) error {
 		return err
 	}
 
-	themes := []VSCodeThemeModel{}
+	themes := []model.VSCodeThemeModel{}
 
 	for _, color := range cfg.Colors {
-		themes = append(themes, VSCodeThemeModel{
+		themes = append(themes, model.VSCodeThemeModel{
 			Name:    color.Name,
 			UITheme: color.VSCodeUITheme,
 			Type:    color.Type,
-			Colors:  *VSCodeColorsModelToJSONModel(colorsModelToVSCodeColorsModel(&color.Model)),
+			Colors:  *model.VSCodeColorsModelToJSONModel(colorsModelToVSCodeColorsModel(&color.Model)),
 		})
 	}
 
-	vsCodeExt := &VSCodeThemeExtension{
+	vsCodeExt := &model.VSCodeThemeExtension{
 		Name:        cfg.Name,
 		Description: cfg.Description,
 		Version:     "0.0.1",
@@ -44,7 +45,8 @@ func GetVSCodeTheme(cfgPath string, outPath string) error {
 	return nil
 }
 
-func makeVSCodeThemeExtension(outPath string, ext VSCodeThemeExtension) error {
+//nolint:cyclop
+func makeVSCodeThemeExtension(outPath string, ext model.VSCodeThemeExtension) error {
 	if err := os.MkdirAll(path.Join(outPath, "/themes"), WriteFilePerm); err != nil {
 		return err
 	}
@@ -54,14 +56,15 @@ func makeVSCodeThemeExtension(outPath string, ext VSCodeThemeExtension) error {
 	}
 
 	for _, theme := range ext.Themes {
-		if themeJson, err := json.MarshalIndent(theme, "", "  "); err != nil {
+		themeJSON, err := json.MarshalIndent(theme, "", "  ")
+		if err != nil {
 			return err
-		} else {
-			if err := os.WriteFile(
-				path.Join(outPath, "/themes/"+toKebabCase(theme.Name)+"-color-theme.json"),
-				themeJson, WriteFilePerm); err != nil {
-				return err
-			}
+		}
+
+		if err := os.WriteFile(
+			path.Join(outPath, "/themes/"+toKebabCase(theme.Name)+"-color-theme.json"),
+			themeJSON, WriteFilePerm); err != nil {
+			return err
 		}
 	}
 
@@ -103,49 +106,28 @@ func templateWithInterface(outPath string, parse string, obj interface{}) error 
 		return err
 	}
 
-	if readme, err := os.Create(outPath); err != nil {
+	readme, err := os.Create(outPath)
+	if err != nil {
 		return err
-	} else {
-		if err := tmpl.Execute(readme, obj); err != nil {
-			return err
-		}
 	}
 
-	return nil
+	return tmpl.Execute(readme, obj)
 }
 
-func colorsModelToVSCodeColorsModel(model *ColorsModel) *VSCodeColorsModel {
-	return &VSCodeColorsModel{
-		Foreground:                       model.Foreground,
-		SecondaryForeground:              model.SecondaryForeground,
-		Background:                       model.Background,
-		SecondaryBackground:              model.SecondaryBackground,
-		BackgroundHighlight:              model.BackgroundHighlight,
-		PeekHighlightBackground:          model.PeekHighlightBackground,
-		BorderForeground:                 model.BorderForeground,
-		BorderBackground:                 model.BorderBackground,
-		EditorForeground:                 model.EditorForeground,
-		EditorBackground:                 model.EditorBackground,
-		DeleteForeground:                 model.DeleteForeground,
-		Border2:                          model.Border2,
-		TextLinkForeground:               model.TextLinkForeground,
-		ActivityBarInactiveForeground:    "#868686",
-		BadgeForeground:                  "#F8F8F8",
-		ButtonHoverBackground:            "#026EC1",
-		ChatSlashCommandForeground:       "#40A6FF",
-		ChatEditedFileForeground:         "#E2C08D",
-		EditorFindMatchBackground:        "#9E6A03",
-		EditorGutterAddedBackground:      "#2EA043",
-		EditorLineNumberForeground:       "#6E7681",
-		EditorOverviewRulerBorder:        "#010409",
-		EditorWidgetBackground:           "#202020",
-		InputPlaceholderForeground:       "#989898",
-		InputOptionActiveBackground:      "#2489DB82",
-		InputOptionActiveBorder:          "#2488DB",
-		QuickInputBackground:             "#222222",
-		StatusBarItemProminentBackground: "#6E768166",
-		TabSelectedBorderTop:             "#6caddf",
-		TextPreformatForeground:          "#D0D0D0",
-		TextSeparatorForeground:          "#21262D",
+func colorsModelToVSCodeColorsModel(colors *model.ColorsModel) *model.VSCodeColorsModel {
+	return &model.VSCodeColorsModel{
+		Foreground:          "",
+		HiForeground:        "",
+		EditorBackground:    "",
+		SecondaryForeground: "",
+		Background:          "",
+		BackgroundAccent:    "",
+		WarningForeground:   "",
+		Border:              "",
+		SecondaryBackground: "",
+		ForegroundAccent:    "",
+		HiBackgroundAccent:  "",
+		MatchBackground:     "",
+		TerminalAnsi:        colors.TerminalAnsi,
 	}
 }
