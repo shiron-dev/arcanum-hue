@@ -3,6 +3,7 @@ linters:
   disable:
     - exportloopref
     - depguard
+    - wrapcheck
 
 issues:
   exclude-rules:
@@ -12,3 +13,4 @@ issues:
         - exhaustruct
         - gochecknoglobals
         - forbidigo
+        - revive

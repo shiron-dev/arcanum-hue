@@ -7,7 +7,7 @@ import (
 )
 
 var RootCmd = &cobra.Command{
-	Use:   "arcanum-hue",
+	Use:   "arcanumhue",
 	Short: "ArcanumHue is a cli tool for integrated management of color themes",
 	Long: `ArcanumHue is a cli tool for integrated management of color themes.
 With ArcanumHue, you can manage color themes for various tools all at once.`,
