@@ -7,6 +7,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const vscodeRequiredArgs = 2
+
 var vscodeCmd = &cobra.Command{
 	Use:   "vscode",
 	Short: "Generate color theme for Visual Studio Code",
@@ -15,7 +17,7 @@ Usage: arcanumhue gen vscode [config file path] [output file path]`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("gen vscode called")
 
-		if len(args) < 2 {
+		if len(args) < vscodeRequiredArgs {
 			fmt.Println(`Please specify the config file path and the output file path.
 	Usage: arcanumhue gen vscode [config file path] [output file path]`)
 
