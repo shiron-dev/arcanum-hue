@@ -131,7 +131,6 @@ jobs:
         with:
           go-version-file: go.mod
           cache-dependency-path: go.sum
-      - uses: Homebrew/actions/setup-homebrew@064c96758610d925cdfa1878c508528f23dc6a58
       - name: Run go test
         id: golang-test
         run: |
@@ -151,7 +150,6 @@ jobs:
         with:
           go-version-file: go.mod
           cache-dependency-path: go.sum
-      - uses: Homebrew/actions/setup-homebrew@064c96758610d925cdfa1878c508528f23dc6a58
       - name: Set up gotestfmt
         uses: gotesttools/gotestfmt-action@8b4478c7019be847373babde9300210e7de34bfb # v2.5.0
         with:
