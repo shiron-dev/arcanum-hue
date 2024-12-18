@@ -9,10 +9,20 @@
           "type": "string"
         },
         "vscodeUiTheme": {
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "vs-dark",
+            "vs",
+            "hc-black",
+            "hc-light"
+          ]
         },
         "type": {
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "light",
+            "dark"
+          ]
         },
         "colors": {
           "$ref": "#/$defs/ColorsModel"

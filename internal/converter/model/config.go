@@ -15,8 +15,8 @@ type Config struct {
 
 type ColorTheme struct {
 	Name          string        `yaml:"name"`
-	VSCodeUITheme VSCodeUITheme `yaml:"vscodeUiTheme"`
-	Type          ThemeType     `yaml:"type"`
+	VSCodeUITheme VSCodeUITheme `jsonschema:"enum=vs-dark,enum=vs,enum=hc-black,enum=hc-light" yaml:"vscodeUiTheme"`
+	Type          ThemeType     `jsonschema:"enum=light,enum=dark"                             yaml:"type"`
 	Model         ColorsModel   `yaml:"colors"`
 }
 
