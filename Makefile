@@ -36,3 +36,7 @@ gen:
 .PHONY: release
 release:
 	@goreleaser release --snapshot --clean
+
+.PHONY: test
+test:
+	@go test -v ./...

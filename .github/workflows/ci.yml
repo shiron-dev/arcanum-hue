@@ -21,7 +21,7 @@ jobs:
       - golang-vet-check
       - golang-fmt-check
       - golang-lint-check
-      - golang-test-comment-check
+      - golang-test-coverage-check
       - golang-test-check
       - golang-generate-check
     steps:
@@ -117,11 +117,9 @@ jobs:
           cache-dependency-path: go.sum
       - uses: golangci/golangci-lint-action@971e284b6050e8a5849b72094c50ab08da042db8 # v6.1.1
 
-  golang-test-comment-check:
+  golang-test-coverage-check:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    env:
-      HTML_REPORT_URL_PATH: reports/${{ github.ref_name }}/${{ github.run_id }}/${{ github.run_attempt }}/cov
     steps:
       - uses: actions/checkout@v4
       - name: Set up Go
@@ -132,7 +130,7 @@ jobs:
       - name: Run go test
         id: golang-test
         run: |
-          go test ./... -coverpkg=./... -coverprofile=coverage.txt -p=5
+          go test -race -coverprofile=coverage.txt -covermode=atomic -p=5 ./...
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@7f8b4b4bde536c465e797be725718b88c5d95e0e # v5.1.1
         with:
