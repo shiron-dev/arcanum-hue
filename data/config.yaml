@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=../schema.json
+name: Test Config
+description: This is a test config file
+colorThemes:
+  - name: Dark
+    vscodeUiTheme: vs-dark
+    type: dark
+    colors:
+      foreground: "#CCCCCC"
+      hiForeground: "#F8F8F8"
+      secondaryForeground: "#6E7681"
+      foregroundAccent: "#4daafc"
+      warningForeground: "#F85149"
+
+      background: "#181818"
+      editorBackground: "#1F1F1F"
+      secondaryBackground: "#313131"
+      backgroundAccent: "#026EC1"
+      hiBackgroundAccent: "#026EC1"
+      matchBackground: "#9E6A03"
+
+      border: "#2B2B2B"
+
+      terminalAnsi:
+        black: "#"
+        brightBlack: "#"
+        blue: "#"
+        cyan: "#"
+        green: "#"
+        brightBlue: "#"
+        brightCyan: "#"
+        brightGreen: "#"
+        white: "#"
+        brightWhite: "#"
+        magenta: "#"
+        yellow: "#"
+        red: "#"
+        brightYellow: "#"
+        brightMagenta: "#"
+        brightRed: "#"
