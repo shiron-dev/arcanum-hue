@@ -1,31 +1,14 @@
-package gen_test
+package gen
 
 import (
 	"io"
 	"os"
 	"path"
 	"testing"
-
-	"github.com/shiron-dev/arcanum-hue/cmd/gen"
 )
 
-var originalArgs = os.Args
-
-func setArgs(arg string) {
-	//nolint:gocritic
-	os.Args = append(originalArgs, arg)
-}
-
-func resetArgs() {
-	os.Args = originalArgs
-}
-
-func Test_vscodeCmd(t *testing.T) {
+func TestVSCodeCmd(t *testing.T) {
 	t.Parallel()
-
-	setArgs("sub")
-
-	defer resetArgs()
 
 	tempDir := t.TempDir()
 
@@ -58,5 +41,5 @@ func Test_vscodeCmd(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	gen.VSCodeCmd.Run(gen.VSCodeCmd, []string{configFilePath, tempDir})
+	vscodeCmd.Run(vscodeCmd, []string{configFilePath, tempDir})
 }
