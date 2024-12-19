@@ -20,7 +20,7 @@ jobs:
       - golang-build-check
       - golang-fmt-check
       - golang-lint-check
-      - golang-test-coverage-check
+      - golang-coverage-check
       - golang-test-check
       - golang-generate-check
     steps:
@@ -103,7 +103,7 @@ jobs:
           cache-dependency-path: go.sum
       - uses: golangci/golangci-lint-action@971e284b6050e8a5849b72094c50ab08da042db8 # v6.1.1
 
-  golang-test-coverage-check:
+  golang-coverage-check:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
