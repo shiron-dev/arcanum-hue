@@ -58,6 +58,14 @@ func GetItermTheme(cfgPath string, outPath string) error {
 
 func colorsModelToItermColorsModel(colors *model.ColorsModel) *model.ItermColorsModel {
 	return &model.ItermColorsModel{
+		Foreground:      colors.Foreground,
+		BoldColor:       colors.HiForeground,
+		Background:      colors.Background,
+		MatchBackground: colors.MatchBackground,
+		SelectionColor:  colors.BackgroundAccent,
+		LinkColor:       colors.ForegroundAccent,
+		BadgeColor:      colors.ForegroundAccent,
+
 		TerminalAnsi: colors.TerminalAnsi,
 	}
 }

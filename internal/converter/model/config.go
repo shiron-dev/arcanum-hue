@@ -26,6 +26,7 @@ type ColorsModel struct {
 	SecondaryForeground string `yaml:"secondaryForeground"`
 	ForegroundAccent    string `yaml:"foregroundAccent"`
 	WarningForeground   string `yaml:"warningForeground"`
+	LinkForeground      string `yaml:"linkForeground"`
 
 	Background          string `yaml:"background"`
 	EditorBackground    string `yaml:"editorBackground"`
