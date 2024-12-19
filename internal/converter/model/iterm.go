@@ -15,27 +15,27 @@ type ItermColor struct {
 
 //nolint:govet
 type ItermPlistModel struct {
-	Ansi0Color           ItermColor `xml:"Ansi 0 Color"`
-	Ansi1Color           ItermColor `xml:"Ansi 1 Color"`
-	Ansi2Color           ItermColor `xml:"Ansi 2 Color"`
-	Ansi3Color           ItermColor `xml:"Ansi 3 Color"`
-	Ansi4Color           ItermColor `xml:"Ansi 4 Color"`
-	Ansi5Color           ItermColor `xml:"Ansi 5 Color"`
-	Ansi6Color           ItermColor `xml:"Ansi 6 Color"`
-	Ansi7Color           ItermColor `xml:"Ansi 7 Color"`
-	Ansi8Color           ItermColor `xml:"Ansi 8 Color"`
-	Ansi9Color           ItermColor `xml:"Ansi 9 Color"`
-	Ansi10Color          ItermColor `xml:"Ansi 10 Color"`
-	Ansi11Color          ItermColor `xml:"Ansi 11 Color"`
-	Ansi12Color          ItermColor `xml:"Ansi 12 Color"`
-	Ansi13Color          ItermColor `xml:"Ansi 13 Color"`
-	Ansi14Color          ItermColor `xml:"Ansi 14 Color"`
-	Ansi15Color          ItermColor `xml:"Ansi 15 Color"`
-	BackgroundColor      ItermColor `xml:"Background Color"`
-	BadgeColor           ItermColor `xml:"Badge Color"`
-	BoldColor            ItermColor `xml:"Bold Color"`
-	CursorColor          ItermColor `xml:"Cursor Color"`
-	CursorGuideColor     ItermColor `xml:"Cursor Guide Color"`
+	Ansi0Color      ItermColor `xml:"Ansi 0 Color"`
+	Ansi1Color      ItermColor `xml:"Ansi 1 Color"`
+	Ansi2Color      ItermColor `xml:"Ansi 2 Color"`
+	Ansi3Color      ItermColor `xml:"Ansi 3 Color"`
+	Ansi4Color      ItermColor `xml:"Ansi 4 Color"`
+	Ansi5Color      ItermColor `xml:"Ansi 5 Color"`
+	Ansi6Color      ItermColor `xml:"Ansi 6 Color"`
+	Ansi7Color      ItermColor `xml:"Ansi 7 Color"`
+	Ansi8Color      ItermColor `xml:"Ansi 8 Color"`
+	Ansi9Color      ItermColor `xml:"Ansi 9 Color"`
+	Ansi10Color     ItermColor `xml:"Ansi 10 Color"`
+	Ansi11Color     ItermColor `xml:"Ansi 11 Color"`
+	Ansi12Color     ItermColor `xml:"Ansi 12 Color"`
+	Ansi13Color     ItermColor `xml:"Ansi 13 Color"`
+	Ansi14Color     ItermColor `xml:"Ansi 14 Color"`
+	Ansi15Color     ItermColor `xml:"Ansi 15 Color"`
+	BackgroundColor ItermColor `xml:"Background Color"`
+	BadgeColor      ItermColor `xml:"Badge Color"`
+	BoldColor       ItermColor `xml:"Bold Color"`
+	CursorColor     ItermColor `xml:"Cursor Color"`
+	// CursorGuideColor     ItermColor `xml:"Cursor Guide Color"`
 	CursorTextColor      ItermColor `xml:"Cursor Text Color"`
 	ForegroundColor      ItermColor `xml:"Foreground Color"`
 	LinkColor            ItermColor `xml:"Link Color"`
@@ -45,11 +45,30 @@ type ItermPlistModel struct {
 }
 
 type ItermColorsModel struct {
+	Foreground      string
+	BoldColor       string
+	Background      string
+	MatchBackground string
+	SelectionColor  string
+	BadgeColor      string
+	LinkColor       string
+
 	TerminalAnsi TerminalAnsiModel
 }
 
 func ItermColorsModelToPlistModel(model *ItermColorsModel) *ItermPlistModel {
 	return &ItermPlistModel{
+		ForegroundColor:      hexToItermColor(model.Foreground),
+		BoldColor:            hexToItermColor(model.BoldColor),
+		BackgroundColor:      hexToItermColor(model.Background),
+		MatchBackgroundColor: hexToItermColor(model.MatchBackground + "70"),
+		CursorColor:          hexToItermColor(model.Foreground),
+		CursorTextColor:      hexToItermColor(model.BoldColor),
+		SelectedTextColor:    hexToItermColor(model.Foreground),
+		SelectionColor:       hexToItermColor(model.SelectionColor + "70"),
+		BadgeColor:           hexToItermColor(model.BadgeColor),
+		LinkColor:            hexToItermColor(model.LinkColor),
+
 		Ansi0Color:  hexToItermColor(model.TerminalAnsi.TerminalAnsiBlack),
 		Ansi1Color:  hexToItermColor(model.TerminalAnsi.TerminalAnsiRed),
 		Ansi2Color:  hexToItermColor(model.TerminalAnsi.TerminalAnsiGreen),
@@ -85,23 +104,23 @@ func hexToItermColor(hex string) ItermColor {
 
 	alpha := 1.0
 	if len(hex)%3 != 0 {
-		alpha, _ = hexSingleColorToRGBFloat(hex[len(hex)-len(hex)/4-1:])
+		alpha, _ = hexSingleColorToRGBFloat(hex[len(hex)-len(hex)/4:])
 		hex = hex[:len(hex)-len(hex)/4]
 	}
 
-	red, err := hexSingleColorToRGBFloat(hex[len(hex)/3:])
+	red, err := hexSingleColorToRGBFloat(hex[:len(hex)/3])
 	if err != nil {
 		red = 0
 	}
 
-	hex = hex[:len(hex)-len(hex)/3]
+	hex = hex[len(hex)/3:]
 
-	green, err := hexSingleColorToRGBFloat(hex[len(hex)/2:])
+	green, err := hexSingleColorToRGBFloat(hex[:len(hex)/2])
 	if err != nil {
 		green = 0
 	}
 
-	hex = hex[:len(hex)-len(hex)/2]
+	hex = hex[len(hex)/2:]
 
 	blue, err := hexSingleColorToRGBFloat(hex)
 	if err != nil {
