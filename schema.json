@@ -17,13 +17,6 @@
             "hc-light"
           ]
         },
-        "type": {
-          "type": "string",
-          "enum": [
-            "light",
-            "dark"
-          ]
-        },
         "colors": {
           "$ref": "#/$defs/ColorsModel"
         }
@@ -87,11 +80,11 @@
         "description": {
           "type": "string"
         },
-        "colorThemes": {
-          "items": {
-            "$ref": "#/$defs/ColorTheme"
-          },
-          "type": "array"
+        "dark": {
+          "$ref": "#/$defs/ColorTheme"
+        },
+        "light": {
+          "$ref": "#/$defs/ColorTheme"
         }
       },
       "additionalProperties": false,

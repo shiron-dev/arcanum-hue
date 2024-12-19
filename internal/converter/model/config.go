@@ -1,22 +1,15 @@
 package model
 
-type ThemeType string
-
-const (
-	ThemeTypeLight ThemeType = "light"
-	ThemeTypeDark  ThemeType = "dark"
-)
-
 type Config struct {
-	Name        string       `yaml:"name"`
-	Description string       `yaml:"description"`
-	Colors      []ColorTheme `yaml:"colorThemes"`
+	Name        string     `yaml:"name"`
+	Description string     `yaml:"description"`
+	Dark        ColorTheme `yaml:"dark"`
+	Light       ColorTheme `yaml:"light"`
 }
 
 type ColorTheme struct {
 	Name          string        `yaml:"name"`
 	VSCodeUITheme VSCodeUITheme `jsonschema:"enum=vs-dark,enum=vs,enum=hc-black,enum=hc-light" yaml:"vscodeUiTheme"`
-	Type          ThemeType     `jsonschema:"enum=light,enum=dark"                             yaml:"type"`
 	Model         ColorsModel   `yaml:"colors"`
 }
 
