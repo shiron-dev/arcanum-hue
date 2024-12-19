@@ -48,6 +48,9 @@
         "warningForeground": {
           "type": "string"
         },
+        "linkForeground": {
+          "type": "string"
+        },
         "background": {
           "type": "string"
         },

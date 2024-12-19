@@ -4,6 +4,7 @@ linters:
     - exportloopref
     - depguard
     - wrapcheck
+    - testpackage
 
 issues:
   exclude-rules:
