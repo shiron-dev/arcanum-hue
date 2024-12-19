@@ -21,11 +21,10 @@ func GetVSCodeTheme(cfgPath string, outPath string) error {
 
 	themes := []model.VSCodeThemeModel{}
 
-	for _, color := range cfg.Colors {
+	for _, color := range []model.ColorTheme{cfg.Light, cfg.Dark} {
 		themes = append(themes, model.VSCodeThemeModel{
 			Name:    color.Name,
 			UITheme: color.VSCodeUITheme,
-			Type:    color.Type,
 			Colors:  *model.VSCodeColorsModelToJSONModel(colorsModelToVSCodeColorsModel(&color.Model)),
 		})
 	}
