@@ -21,7 +21,6 @@ func GetItermTheme(cfgPath string, outPath string) error {
 		return err
 	}
 
-	outPath = path.Join(outPath, cfg.Name)
 	if err := os.MkdirAll(outPath, WriteFilePerm); err != nil {
 		return err
 	}
