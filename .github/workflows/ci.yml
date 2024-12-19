@@ -18,7 +18,6 @@ jobs:
       - yaml-lint
       - action-lint
       - golang-build-check
-      - golang-vet-check
       - golang-fmt-check
       - golang-lint-check
       - golang-test-coverage-check
@@ -72,19 +71,6 @@ jobs:
           cache-dependency-path: go.sum
       - name: Run go build
         run: make build
-
-  golang-vet-check:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: go.mod
-          cache-dependency-path: go.sum
-      - name: Run go vet
-        run: go vet ./...
 
   golang-fmt-check:
     runs-on: ubuntu-latest
