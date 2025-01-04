@@ -1,40 +1,39 @@
 # yaml-language-server: $schema=../schema.json
 name: Test Config
 description: This is a test config file
-colorThemes:
-  - name: Dark
-    vscodeUiTheme: vs-dark
-    type: dark
-    colors:
-      foreground: "#CCCCCC"
-      hiForeground: "#F8F8F8"
-      secondaryForeground: "#6E7681"
-      foregroundAccent: "#4daafc"
-      warningForeground: "#F85149"
+dark:
+  name: Dark
+  vscodeUiTheme: vs-dark
+  colors:
+    foreground: "#CCCCCC"
+    hiForeground: "#F8F8F8"
+    secondaryForeground: "#6E7681"
+    foregroundAccent: "#4daafc"
+    warningForeground: "#F85149"
 
-      background: "#181818"
-      editorBackground: "#1F1F1F"
-      secondaryBackground: "#313131"
-      backgroundAccent: "#026EC1"
-      hiBackgroundAccent: "#026EC1"
-      matchBackground: "#9E6A03"
+    background: "#181818"
+    editorBackground: "#1F1F1F"
+    secondaryBackground: "#313131"
+    backgroundAccent: "#026EC1"
+    hiBackgroundAccent: "#026EC1"
+    matchBackground: "#9E6A03"
 
-      border: "#2B2B2B"
+    border: "#2B2B2B"
 
-      terminalAnsi:
-        black: "#000000"
-        red: "#b83019"
-        green: "#51bf37"
-        yellow: "#c6c43d"
-        blue: "#0c24bf"
-        magenta: "#b93ec1"
-        cyan: "#53c2c5"
-        white: "#c7c7c7"
-        brightBlack: "#676767"
-        brightRed: "#ef766d"
-        brightGreen: "#8cf67a"
-        brightYellow: "#fefb7e"
-        brightBlue: "#6a71f6"
-        brightMagenta: "#f07ef8"
-        brightCyan: "#8ef9fd"
-        brightWhite: "#feffff"
+    terminalAnsi:
+      black: "#000000"
+      red: "#b83019"
+      green: "#51bf37"
+      yellow: "#c6c43d"
+      blue: "#0c24bf"
+      magenta: "#b93ec1"
+      cyan: "#53c2c5"
+      white: "#c7c7c7"
+      brightBlack: "#676767"
+      brightRed: "#ef766d"
+      brightGreen: "#8cf67a"
+      brightYellow: "#fefb7e"
+      brightBlue: "#6a71f6"
+      brightMagenta: "#f07ef8"
+      brightCyan: "#8ef9fd"
+      brightWhite: "#feffff"

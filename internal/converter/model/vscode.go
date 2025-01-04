@@ -19,7 +19,6 @@ type VSCodeThemeExtension struct {
 type VSCodeThemeModel struct {
 	Name    string                `json:"name"`
 	UITheme VSCodeUITheme         `json:"-"`
-	Type    ThemeType             `json:"type"`
 	Colors  VSCodeColorsJSONModel `json:"colors"`
 }
 

@@ -25,7 +25,7 @@ func GetItermTheme(cfgPath string, outPath string) error {
 		return err
 	}
 
-	for _, color := range cfg.Colors {
+	for _, color := range []model.ColorTheme{cfg.Light, cfg.Dark} {
 		plist := *model.ItermColorsModelToPlistModel(colorsModelToItermColorsModel(&color.Model))
 
 		xml, err := xml.MarshalIndent(util.StringOrDictMarshaler{Value: plist}, "", "  ")
